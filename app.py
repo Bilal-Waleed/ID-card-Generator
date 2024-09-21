@@ -31,7 +31,7 @@ def index():
         draw.rectangle([(0, 0), (width, height)], outline="green", width=5)
 
         # Define font and size
-        font_path = "C:/Windows/Fonts/Arial.ttf"  # Ensure the font path is correct
+        font_path = "content/Font/arial.ttf"  # Ensure the font path is correct
         font_title = ImageFont.truetype(font_path, 24)
         font_content = ImageFont.truetype(font_path, 18)
 
