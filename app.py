@@ -1,12 +1,9 @@
 from flask import Flask, request, render_template, send_file
 from PIL import Image, ImageDraw, ImageFont
 import os
+import tempfile
 
 app = Flask(__name__)
-
-# Ensure the content folder exists
-if not os.path.exists('content'):
-    os.makedirs('content')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -15,9 +12,11 @@ def index():
         roll_no = request.form['roll_no']
         user_image = request.files['user_image']
 
-        # Save the user-uploaded image
-        user_image_path = os.path.join('content', 'pic.jpg')
-        user_image.save(user_image_path)
+        # Use a temporary file to save the user-uploaded image
+        user_image_temp = tempfile.NamedTemporaryFile(delete=False, suffix=".jpg")
+        user_image.save(user_image_temp.name)
+        user_image_temp.close()
+        user_image_path = user_image_temp.name
 
         # Define the ID card dimensions
         width = 600
@@ -31,7 +30,7 @@ def index():
         draw.rectangle([(0, 0), (width, height)], outline="green", width=5)
 
         # Define font and size
-        font_path = "content/Font/arial.ttf"  # Ensure the font path is correct
+        font_path = "content/font/arial.ttf"  # Make sure the font path is correct
         font_title = ImageFont.truetype(font_path, 24)
         font_content = ImageFont.truetype(font_path, 18)
 
@@ -78,7 +77,7 @@ def index():
             image.paste(my_pic, (pic_x, pic_y))
             draw.rectangle([(pic_x - 5, pic_y - 5), (pic_x + 130 + 5, pic_y + 130 + 5)], outline="green", width=5)
         except FileNotFoundError:
-            print("Picture not found at content/pic.jpg")
+            print("User picture not found")
 
         # Add barcode close to the picture
         try:
@@ -99,7 +98,7 @@ def index():
         text_y = line_y + 5  # Place text just below the line
         draw.text((text_x, text_y), "Authorized Signature", fill="green", font=font_content)
 
-        # Define new dimensions for the boxes
+        # Red and green boxes at the bottom
         box_width = 100
         box_height = 30
         box_y_position = height - box_height - 6
@@ -109,16 +108,17 @@ def index():
         draw.rectangle([(red_box_x, box_y_position), (red_box_x + box_width, box_y_position + box_height)], fill="red")
         draw.text((red_box_x + 15, box_y_position + 5), "Q1", fill="white", font=font_content)
 
-        # Green box, directly next to the red box
+        # Green box next to the red box
         green_box_x = red_box_x + box_width
         draw.rectangle([(green_box_x, box_y_position), (green_box_x + box_width, box_y_position + box_height)], fill="green")
         draw.text((green_box_x + 10, box_y_position + 5), "WMD", fill="white", font=font_content)
 
-        # Save the ID card
-        id_card_path = os.path.join('content', 'id_card.png')
-        image.save(id_card_path)
+        # Save the generated ID card to a temporary file
+        id_card_temp = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        image.save(id_card_temp.name)
+        id_card_temp.close()
 
-        return send_file(id_card_path, as_attachment=True)
+        return send_file(id_card_temp.name, as_attachment=True)
 
     return render_template('index.html')
 
