@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <title>ID Card Generator</title>
     <style>
         body {
@@ -69,6 +70,15 @@
         button:active {
             background-color: #3a3a3a;
         }
+        .copyright {
+            text-align: center; 
+            font-size: 12px; 
+            /* margin-bottom: 10px; */
+            margin-top: 25px;
+            font-weight: 600;
+            width: 100%; 
+            color:#ccc;
+}
         @media (max-width: 500px) {
             .container {
                 width: 90%;
@@ -91,6 +101,9 @@
             
             <button type="submit">Generate ID Card</button>
         </form>
+        <div class="copyright">
+            <i class="fa-regular fa-copyright"></i> Copy Right; 2024 Muhammad Bilal Waleed
+        </div>
     </div>
 </body>
 </html>
