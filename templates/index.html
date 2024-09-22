@@ -37,7 +37,7 @@
             color: #ccc;
             font-size: 0.95rem;
         }
-        input[type="text"], input[type="file"] {
+        input[type="text"], input[type="file"], select {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -48,7 +48,7 @@
             box-sizing: border-box;
             transition: border 0.3s ease;
         }
-        input[type="text"]:focus, input[type="file"]:focus {
+        input[type="text"]:focus, input[type="file"]:focus, select:focus {
             border-color: #555;
             outline: none;
         }
@@ -73,12 +73,10 @@
         .copyright {
             text-align: center; 
             font-size: 12px; 
-            /* margin-bottom: 10px; */
             margin-top: 25px;
             font-weight: 600;
-            width: 100%; 
             color:#ccc;
-}
+        }
         @media (max-width: 500px) {
             .container {
                 width: 90%;
@@ -90,15 +88,21 @@
     <div class="container">
         <h1>ID Card Generator</h1>
         <form action="/" method="POST" enctype="multipart/form-data">
-            <label for="name">Enter Name:</label>
+            <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
-            
-            <label for="roll_no">Enter Roll No:</label>
+
+            <label for="roll_no">Roll No</label>
             <input type="text" id="roll_no" name="roll_no" required>
-            
-            <label for="user_image">Upload User Image:</label>
-            <input type="file" id="user_image" name="user_image" accept="image/*" required>
-            
+
+            <label for="time_slot">Select Time</label>
+            <select id="time_slot" name="time_slot" required>
+                <option value="8:00 AM to 12:00 PM">8:00 AM to 12:00 PM</option>
+                <option value="2:00 PM to 6:00 PM">2:00 PM to 6:00 PM</option>
+            </select>
+
+            <label for="user_image">Upload Your Picture</label>
+            <input type="file" id="user_image" name="user_image" required>
+
             <button type="submit">Generate ID Card</button>
         </form>
         <div class="copyright">

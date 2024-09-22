@@ -8,8 +8,10 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+
         name = request.form['name']
         roll_no = request.form['roll_no']
+        time_slot = request.form['time_slot']  # Get the time slot from the form
         user_image = request.files['user_image']
 
         # Use a temporary file to save the user-uploaded image
@@ -44,7 +46,7 @@ def index():
             ("City:", " Karachi"),
             ("Center:", " Bahria Auditorium"),
             ("Campus:", " Karsaz"),
-            ("Day/Time:", " Sunday-2:00 PM to 6:00 PM"),
+            ("Day/Time:", f" Sunday - {time_slot}"),  # Updated to include selected time slot
             ("Batch:", " 61")
         ]
 
